@@ -1,11 +1,10 @@
 {
     function formatString(input: string, toUpper?: boolean): string {
         if (toUpper === false) {
-          return input.toLowerCase();
-        } else {
-          return input.toUpperCase();
+            return input.toLowerCase();
         }
-      };
+        return input.toUpperCase();
+        };
 
       function filterByRating(items: { title: string; rating: number }[]): { title: string; rating: number }[]
         {
@@ -13,36 +12,21 @@
      };
 
 
-          function concatenateArrays<T>(...arrays: T[][]): T[] {
-            return arrays.reduce((acc, array) => acc.concat(array), []);
-          };
-        //   return [].concat(...arrays);
-        //   let result: T[] = [];
-        //   for (let array of arrays) {
-        //       result = result.concat(array);
-        //   }
-        //   return result;
-//          console.log( concatenateArrays(["a", "b"], ["c"]));       // Output: ["a", "b", "c"]
-// console.log(concatenateArrays([1, 2], [3, 4], [5]));     // Output: [1, 2, 3, 4, 5]
+    function concatenateArrays<T>(...arrays: T[][]): T[] {
+        return arrays.flat();
+    };
 
 class Vehicle {
-    private make: string;
-    private year: number;
+    constructor(private make: string, private year: number) {}
 
-constructor(make: string, year: number) {
-    this.make = make;
-    this.year = year;
-}
 getInfo (): string {
     return `Make: ${this.make}, Year: ${this.year}`;
 }
-}
-class Car extends Vehicle {
-    private model: string;
+};
 
-constructor(make: string, year: number, model: string) {
-    super(make, year);
-    this.model = model;    
+class Car extends Vehicle {
+constructor(make: string, year: number, private model: string) {
+    super(make, year);   
 }
 getModel (): string {
     return  `Model: ${this.model}`;
@@ -60,15 +44,16 @@ function processValue(value: string | number): number {
 interface Product {
     name: string;
     price: number;
-  }
+  };
   
   function getMostExpensiveProduct(products: Product[]): Product | null
     {
         if (products.length === 0) {
         return null;
         }
-        return products.reduce((max, product) => product.price > max.price ? product : max);
-    
+        return products.reduce((max, product) => 
+            product.price > max.price ? product : max
+    ); 
     };
    
     enum Day {
@@ -79,17 +64,14 @@ interface Product {
         Friday,
         Saturday,
         Sunday
-    }
+    };
     
     function getDayType(day: Day): string {
-        switch (day) {
-            case Day.Saturday:
-            case Day.Sunday:
-                return "Weekend";
-            default:
-                return "Weekday";
-        }
-    }
+        const weekend = new Set<Day>(
+            [Day.Saturday, Day.Sunday]
+        );
+        return weekend.has(day) ? "Weekend" : "Weekday";
+    };
     
     async function squareAsync(n: number): Promise<number> {
         return new Promise((resolve, reject) => {
